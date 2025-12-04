@@ -1,2 +1,5 @@
 flask
 pytest
+
+note: flask is being used here because its a small/simple way to show our goals of this final.
+(Flask is a micro web framework to help build small web apps.)
