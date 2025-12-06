@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "default" ]
+    branches: [ "index.html" ]
   pull_request:
-    branches: [ "default" ]
+    branches: [ "index.html" ]
 
 jobs:
   build-and-test:
