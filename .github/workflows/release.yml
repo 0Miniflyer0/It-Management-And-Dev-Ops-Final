@@ -2,9 +2,16 @@ name: Release Pipeline
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
+    inputs:
+      aws_access_key_id:
+        description: "AWS Access Key ID (from AWS Academy)"
+        required: true
+      aws_secret_access_key:
+        description: "AWS Secret Access Key (from AWS Academy)"
+        required: true
+      aws_session_token:
+        description: "AWS Session Token (from AWS Academy)"
+        required: true
 
 jobs:
   release:
@@ -26,11 +33,12 @@ jobs:
           push: true
           tags: 0miniflyer0/it-management-and-dev-ops-final:latest
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (AWS Academy)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+          aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+          aws-session-token: ${{ github.event.inputs.aws_session_token }}
           aws-region: us-east-1
 
       - name: Setup Terraform
