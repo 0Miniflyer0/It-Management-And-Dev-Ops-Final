@@ -40,12 +40,21 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_instance" "flask_app" {
-  ami                    = "ami-0c02fb55956c7d316" 
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.app_sg.id]
+  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 (us-east-1)
+  instance_type = "t2.micro"
 
-  user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              amazon-linux-ext
+  user_data = <<EOF
+#!/bin/bash
+yum update -y
+amazon-linux-extras install docker -y
+service docker start
+usermod -a -G docker ec2-user
 
+docker pull 0miniflyer0/it-management-and-dev-ops-final:latest
+docker run -d -p 5000:5000 0miniflyer0/it-management-and-dev-ops-final:latest
+EOF
+
+  tags = {
+    Name = "flask-app"
+  }
+}
