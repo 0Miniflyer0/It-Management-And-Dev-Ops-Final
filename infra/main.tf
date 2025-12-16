@@ -43,7 +43,8 @@ resource "aws_instance" "flask_app" {
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.micro"
 
-  vpc_security_group_ids = [aws_security_group.app_sg.id]
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.app_sg.id]
 
   user_data = <<EOF
 #!/bin/bash
